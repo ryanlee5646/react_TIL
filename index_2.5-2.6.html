@@ -1,0 +1,42 @@
+<!-- #2.5 JSX문법 -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        // 기본 함수
+        function Title(){
+            return (
+                <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+                "This is onMouseEnter"
+                </h3>
+            );
+        }
+        // Arrow 함수
+        const Button = () => (
+            <button 
+                style={{
+                    backgroundColor:"tomato",
+                }} 
+                onClick={() => console.log("i'm Click!!")}
+            >
+                Click me
+            </button>
+        );
+        // Rendering하기 위해 만든 함수들을 Component라 하고 Component는 대문자가 와야한다.
+        const Container = () => (
+            <div>
+                <Title /> 
+                <Button />
+            </div>
+        );
+
+        ReactDOM.render(<Container />, root)
+        
+    </script>
+</html>

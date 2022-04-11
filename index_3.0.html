@@ -1,0 +1,33 @@
+<!-- #3.0 State(데이터가 저장되는 곳) -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        let counter = 0;
+        function countUp() {
+            counter += 1;
+            render();
+        }
+        // 값이 바뀔 때마다 화면을 render하게 되면 비효율적임 -> 3.1에서 개선
+        function render(){
+            ReactDOM.render(<Container />, root);
+        }
+        
+        const Container = () => (
+            <div>
+                <h3>Total clicks: {counter}</h3> 
+                <button onClick={countUp}>Click me</button>
+            </div>
+        );
+        render();
+        
+        
+    </script>
+</html>

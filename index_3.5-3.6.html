@@ -1,0 +1,52 @@
+<!-- #3.5 Inputs and State -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        function App(){
+            const [minutes, setMinutes] = React.useState();
+            const onChange = (event) => {
+                setMinutes(event.target.value); // input값에 입력할 때마다 onChange 함수가 실행되고 입력된 값을 State에 담아 State Function을 실행시키면 State값이 변경되고 화면이 rerendering됨
+            };
+            const reset = () => {
+                setMinutes(0)
+            }
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input 
+                            value={minutes} 
+                            id="minutes" 
+                            placeholder="Minutes" 
+                            type="number"
+                            onChange={onChange}    
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label> 
+                        <input 
+                            value={Math.round(minutes / 60)} 
+                            id="hours" 
+                            placeholder="Hours" 
+                            type="number"
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                </div>
+            ) 
+        };
+        ReactDOM.render(<App />, root);
+        
+        
+    </script>
+</html>
