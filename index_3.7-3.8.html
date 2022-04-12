@@ -1,0 +1,60 @@
+<!-- #3.5 State Practice(단위변환프로그램) -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        function App(){
+            const [amount, setAmount] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            const onChange = (event) => {
+                setAmount(event.target.value); // input값에 입력할 때마다 onChange 함수가 실행되고 입력된 값을 State에 담아 State Function을 실행시키면 State값이 변경되고 화면이 rerendering됨
+            };
+            const reset = () => setAmount(0);      
+            const onFlip = () => {
+                reset();
+                setFlipped((current) => !current)
+            };
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input 
+                            value={flipped ? amount * 60 : amount} 
+                            id="minutes" 
+                            placeholder="Minutes" 
+                            type="number"
+                            onChange={onChange}
+                            disabled={flipped}    
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label> 
+                        <input 
+                            value={flipped ? amount : Math.round(amount / 60)} // flipped가 true일때 amount를 보여주고 false이면 계산된 시간 보여주기
+                            id="hours" 
+                            placeholder="Hours" 
+                            type="number"
+                            disabled={!flipped}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>Flip</button>
+
+                </div>
+            ) 
+        };
+        ReactDOM.render(<App />, root);
+        
+        
+    </script>
+</html>
