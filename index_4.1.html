@@ -1,0 +1,50 @@
+<!-- #4.1 Props 활용 -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function Btn({ text, onClick }){ // props에 받아온 onClick에는 changeValue함수가 들어있다.
+            console.log(text, "rerender");
+            return (
+                    <button
+                    onClick={onClick}
+                    style={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: 0,
+                        borderRadius: 10,
+                    }}
+                    >
+                    {name}{text}
+                </button>
+                );
+        }
+
+        const MemorizedBtn = React.memo(Btn); // React Memo를 사용하게 되면 부모의 state가 변경되어도 전달되는 props의 변화가 없다면 reRender가 되지 않게한다.(나중에 성능에 중요)
+
+        // 37번째 줄에 Componet에 onClick 속성은 EventListener가 아니고 단지 Props
+        // 버튼을 클릭하게 되면 onClick 이벤트로 인해 changeValue 함수가 실행되고 부모 컴포넌트에 state 값이 변하게 되면서 return 이후에 jsx들이 reRender하게 된다
+        function App(){
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => { 
+                setValue("Revert Changes");
+            }
+            return (
+                <div>
+                    <MemorizedBtn text={value} onClick={changeValue} /> 
+                    <MemorizedBtn text="Continue" />
+                </div>
+            ) 
+        };
+        
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root);
+    </script>
+</html>

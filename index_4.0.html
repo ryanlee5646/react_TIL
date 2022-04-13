@@ -1,0 +1,41 @@
+<!-- #4.0 Props (부모 Component에서 자식 Component로 데이터를 보내줌) -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function Btn({text, big}){ // props인자로 받게 되면 object형태로 받고 {객체 안에 값} ex) {text, name}를 입력하게되면 객체 안에 값을 바로 불러올수 있다. (여러개도 가능)
+            console.log(big, text);
+            return (
+                <button
+                style={{
+                    backgroundColor: "tomato",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: 10,
+                    fontSize: big ? 18:16, // props를 이용하여 조건문을 활용할 수도 있다.
+                }}
+                >
+                {name}{text}
+            </button>
+            );
+        }
+
+        function App(){
+            return (
+                <div>
+                    <Btn text="저장" big={true}/>
+                    <Btn text="확인" big={false}/>
+                </div>
+            ) 
+        };
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root);
+    </script>
+</html>
