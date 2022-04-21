@@ -19,6 +19,8 @@
         "react"
     ],
     "rules": {
+      "no-unused-vars": 1,  // 0 이면 경고/알림 사라짐, 1 이면 경고만뜸, 2 빨간줄생성
+      "no-console": 0,     // console 써도 노란줄 생성 안되게끔
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-uses-react": "error",   
       "react/jsx-uses-vars": "error",
