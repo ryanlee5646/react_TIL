@@ -1,0 +1,49 @@
+<!-- #4.2 Props Type -->
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <!--babel.js CDN-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--prop-types을 알려주는 라이브러리-->
+    <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+    <script type="text/babel">
+        function Btn({ text, fontSize=20, onClick }){ // porps에 default값을 지정할 수도 있다
+            return (
+                    <button
+                    style={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: 0,
+                        borderRadius: 10,
+                        fontSize,  // style 속성명과 props 명칭이 같다면 하나만 적어도됨
+                    }}
+                    >
+                    {text}
+                </button>
+                );
+        }
+        // props의 type을 잘못 전달하게 될 수 있으므로, type을 명시해줘서 틀릴경우 에러를 발생시켜줌
+        // .isRequired를 하게되면 해당 props가 무조건 넘어오지 않을 경우 에러발생
+        Btn.propTypes = {
+            text: PropTypes.string,
+            fontSize: PropTypes.number.isRequired,
+        }
+
+        function App(){
+            return (
+                <div>
+                    <Btn text="Save Changes" /> 
+                    <Btn text={17} fontSize={"Continue"}/>
+                </div>
+            ) 
+        };
+        
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root);
+    </script>
+</html>

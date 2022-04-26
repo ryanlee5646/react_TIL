@@ -24,6 +24,7 @@
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-uses-react": "error",   
       "react/jsx-uses-vars": "error",
-      "react/button-has-type": "off"
+      "react/button-has-type": "off",
+      "linebreak-style": 0
     }
 }

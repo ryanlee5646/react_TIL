@@ -117,3 +117,58 @@ function App() {
 
 export default App;
 ```
+
+### (4) JSX 조건문
+
+JSX 조건문으로 State 상태 값이 바뀔 때마다 컴포넌트를 동적으로 변환한다
+```js
+import React, { useState, useEffect } from 'react';
+
+function Hello() {
+  return <h1>Hello</h1>;
+}
+
+function App() {
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing((prev) => !prev);
+  return (
+    <div>
+      {showing ? <Hello /> : null} <!-- JSX 조건문 -->
+      <button onClick={onClick}>{showing ? 'Hide' : 'Show'}</button>
+    </div>
+  );
+}
+export default App;
+```
+
+### (5) clearnUp Function
+
+useEffect의 첫번째 인자인 Effect함수에서 return 값에 clearnUp 함수를 리턴하게 되면  컴포넌트가 사라질 때 해당 함수가 실행된다.
+```js
+import React, { useState, useEffect } from 'react';
+
+function byeFn() {
+  console.log('Bye');
+}
+
+function hiFn() {
+  console.log('Hi');
+  return byeFn;
+}
+
+function Hello() {
+  useEffect(hiFn, []);
+}
+
+function App() {
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing((prev) => !prev);
+  return (
+    <div>
+      {showing ? <Hello /> : null} <!-- JSX 조건문 -->
+      <button onClick={onClick}>{showing ? 'Hide' : 'Show'}</button>
+    </div>
+  );
+}
+export default App;
+```
