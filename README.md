@@ -74,7 +74,10 @@ export default Button;
 
 기본적으로 `State`가 변경되면 매번 컴포넌트가 Rerendering되는데 useEffect를 사용하면 매번 Rerendering 되지 않게 설정해 줄 수가 있다.
 `useEffect(effect, deps)` 사용
-effect에는 함수로직이 들어가고 deps는 배열형태로 배열안에 특정 변수가 들어가면 변수에 이벤트가 생길 때마다 변경해준다.
+Effect에는 함수로직이 들어가고 deps는 배열형태로 배열안에 특정 변수가 들어가면 변수에 이벤트가 생길 때마다 변경해준다.
+
+그리고 보통 useEffcet를 사용할 때 Effect 함수를 따로 만들지 않고 바로 그 자리에 함수를 만들어서 사용함
+`function(){}` 형태의 함수보다 `() = > {}` 형태의 함수를 더 선호
 ```js
 function App() {
   const [counter, setValue] = useState(0);

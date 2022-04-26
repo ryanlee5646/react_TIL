@@ -25,6 +25,8 @@
       "react/jsx-uses-react": "error",   
       "react/jsx-uses-vars": "error",
       "react/button-has-type": "off",
-      "linebreak-style": 0
+      "linebreak-style": 0,
+      "quotes": ["error", "double"],
+      "react/self-closing-comp": "warn" // 셀프 클로징 태그 가능하면 적용
     }
 }
