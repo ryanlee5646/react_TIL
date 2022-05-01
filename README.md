@@ -70,7 +70,7 @@ Button.propTypes = {
 export default Button;
 ```
 
-## (3) useEffect
+### (3) useEffect
 
 기본적으로 `State`가 변경되면 매번 컴포넌트가 Rerendering되는데 useEffect를 사용하면 매번 Rerendering 되지 않게 설정해 줄 수가 있다.
 `useEffect(effect, deps)` 사용
@@ -174,4 +174,49 @@ function App() {
   );
 }
 export default App;
+```
+
+### (6) useState 배열 수정
+
+State가 배열이면 배열에 값을 추가할 때 직접적으로 `toDos.push`와 같이 추가하지 않는다.
+`setTodos()`함수안에 `currentArray`(변수이름은 상관없음)을 선언하여 함수를 만들어주고 
+`[...currentArray, toDo]`형태로 선언하게 되면 `toDo` State가 배열 맨뒤에 추가되게 할 수 있다.
+`...`을 붙이게 되면 배열 안에 요소 하나하나를 풀어서 더하게 된다.
+```js
+import React, { useState, useEffect } from "react";
+
+function App() {
+  const [toDo, setTodo] = useState("");
+  const [toDos, setTodos] = useState([]);
+  const onChange = (event) => setTodo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === "") {
+      return;
+    }
+    setTodo("");
+    setTodos((currentArray) => [...currentArray, toDo]); // toDo를 뒤에 붙이면 현재 배열 뒷부분에 추가
+  };
+  console.log(toDos);
+  return (
+    <div>
+      <h1>
+        My Todo List (
+        {toDos.length}
+        )
+      </h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={toDo}
+          type="text"
+          placeholder="Write your to do!!"
+        />
+        <button>Add toDo</button>
+      </form>
+    </div>
+  );
+}
+export default App;
+
 ```
