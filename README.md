@@ -194,8 +194,8 @@ function App() {
     if (toDo === "") {
       return;
     }
-    setTodo("");
     setTodos((currentArray) => [...currentArray, toDo]); // toDo를 뒤에 붙이면 현재 배열 뒷부분에 추가
+    setTodo("");
   };
   console.log(toDos);
   return (
@@ -219,4 +219,28 @@ function App() {
 }
 export default App;
 
+```
+
+### (7) map함수 사용
+
+`map` 함수는 배열에 있는 item을 내가 원하는 무엇이든지 바꿔주고 새로운 array로 return 해준다
+`map` 함수는 각 item을 인자값으로 받아 올 수가 있다.
+```js
+['a', 'b', 'c', 'd', 'e'].map((item) => item.toUpperCae());
+-> ['A', 'B', 'C', 'D', 'E'];
+
+```
+
+### (8) 배열의 요소를 렌더링 하는 경우 key를 설정해야함
+
+`map`함수의 두번째 값은 배열의 인덱스를 나타낸다. 배열의 요소는 각각 고유한 `key`를 가지고 있어야 한다. 그렇지 않으면 에러남. 하지만 배열의 `index`를 `key`로 가지는 건 좋지 못한 방법이다. 
+배열의 요소가 삭제되거나 추가가 될때 인덱스 또한 바뀌기 때문이다.
+보통 배열의 요소가 id를 가지고 있는 객체 형태이거나, 
+전역에 id를 count해주는 변수를 선언해줘서 추가하는 방법 등 다른 방식으로 해결하는 것이 좋다.
+```js
+<ul>
+  {toDos.map((item, index) => (
+    <li key={index}>{item}</li>
+  ))}
+</ul>
 ```
