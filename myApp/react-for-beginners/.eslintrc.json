@@ -30,6 +30,7 @@
       "react/self-closing-comp": "warn", // 셀프 클로징 태그 가능하면 적용
       "react/no-array-index-key": "off", // key 요소로 배열의 index사용하는거 오류 막아줌(일단 임시로 룰제어)
       "react/jsx-one-expression-per-line": "off",
-      "comma-dangle": "off"
+      "comma-dangle": "off",
+      "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     }
 }

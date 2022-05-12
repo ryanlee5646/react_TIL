@@ -244,3 +244,38 @@ export default App;
   ))}
 </ul>
 ```
+
+### (9) event.target.value 형태가 [object, Object] 일때 문제해결
+`JSON.stringify()`: JavaScript 객체를 JSON 문자열로 변환할 때는 JSON 객체의 `stringify()` 메서드를 사용. 문자열로 된 자바스크립트 객체는 `[]`이나 `.`으로 접근이 불가능하다.
+`JOSN.parse()`:  JSON 문자열의 구문을 분석하고, 그 결과에서 JavaScript 값이나 객체를 생성한다.
+
+
+```js
+// coin
+{
+  id: i,
+  name: tmpCoin[i].name,
+  symbol: tmpCoin[i].symbol,
+  price: tmpCoin[i].quotes.USD.price,
+}
+
+// Selectbox 컴포넌트
+function SelectBox({ coins, rateKRW, onChange }) {
+  return (
+    <select onChange={onChange}>
+      <option>코인을 선택하세요</option>
+      {coins.map((coin) => (
+        <option value={JSON.stringify(coin)} key={coin.id}> // 
+          {coin.name}({coin.symbol}): ₩{Math.round(coin.price * rateKRW)}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+// Selebox의 onChange 이벤트가 발생할 때 실행되는 함수
+const fromCoinHandler = (e) => {
+    setFromCoin(JSON.parse(e.target.value)); //Json 형식의 문자열로 반환된 데이터를 자바스크립트 객체로 변환           
+    setFlag(false);
+  };
+```

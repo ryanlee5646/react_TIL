@@ -1,6 +1,7 @@
 // 7.0-7.1 Coin Tracker(암호화폐들과 가격을 나열하는 프로젝트)
 import React, { useState, useEffect } from "react";
-// 참고: https://blog.toycrane.xyz/react%EC%97%90%EC%84%9C-select-box-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-a20e2bf082b2
+import SelectBox from "./SelectBox";
+
 function App() {
   const [loading, setLoading] = useState(true); // 로딩 메세지를 보여주기 위함
   const [coins, setCoins] = useState([]);
@@ -14,9 +15,20 @@ function App() {
     fetch("https://api.coinpaprika.com/v1/tickers?qutoes=KRW") // fetch는 javascript API호출 메서드
       .then((response) => response.json())
       .then((json) => {
-        setCoins(json.slice(0, 100)); // 코인 종류가 너무 많아서 Top100만
+        const tmpCoin = json.slice(0, 100);
+        const parseCoinInfo = [];
+        for (let i = 0; i < tmpCoin.length; i++) {
+          parseCoinInfo.push({
+            id: i,
+            name: tmpCoin[i].name,
+            symbol: tmpCoin[i].symbol,
+            price: tmpCoin[i].quotes.USD.price,
+          });
+        }
+        setCoins(parseCoinInfo);
         setLoading(false);
       });
+
     // 환율
     fetch(
       "https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD"
@@ -26,42 +38,44 @@ function App() {
         setRateKRW(json[0].basePrice);
       });
   }, []); // useEffect를 한번만 사용하고 싶을 경우 deps는 []
-  const fromCoinHandler = (event) => setFromCoin(event.target.value);
-  const toCoinHandler = (event) => setToCoin(event.target.value);
+
+  const fromCoinHandler = (e) => {
+    setFromCoin(JSON.parse(e.target.value));
+    setFlag(false);
+  };
+  const toCoinHandler = (e) => {
+    setToCoin(JSON.parse(e.target.value));
+    setFlag(false);
+  };
   const doConvert = () => {
-    console.log("coint", fromCoin.id);
+    console.log(fromCoin.name);
+    setResult(fromCoin.price / toCoin.price);
     setFlag(true);
   };
 
   return (
     <div>
-      <h1>The Coins {loading ? "" : `(TOP ${coins.length})`}</h1>
-      {loading ? <strong>Loading...</strong> : <p>From</p>}
-      <select onChange={fromCoinHandler}>
-        <option>코인을 선택하세요</option>
-        {coins.map((coin) => (
-          <option value={coin} key={coin.id}>
-            {coin.name}({coin.symbol}): ₩
-            {Math.round(coin.quotes.USD.price * rateKRW)}
-          </option>
-        ))}
-      </select>
-      <p>To</p>
-      <select onChange={toCoinHandler}>
-        <option>코인을 선택하세요</option>
-        {coins.map((coin) => (
-          <option value={coin.id} key={coin.id}>
-            {coin.name}({coin.symbol}): ₩
-            {Math.round(coin.quotes.USD.price * rateKRW)}
-          </option>
-        ))}
-      </select>
-      <br />
-      <button onClick={doConvert}>Convert</button>
-      <h2>
-        Convert Coin:
-        {flag ? `${result} ${toCoin.symbol}` : ""}
-      </h2>
+      {loading ? (
+        <strong>Loading...</strong>
+      ) : (
+        <div>
+          <h1>The Coins {loading ? "" : `(TOP ${coins.length})`}</h1>
+          {loading ? <strong>Loading...</strong> : <p>From</p>}
+          <SelectBox
+            coins={coins}
+            rateKRW={rateKRW}
+            onChange={fromCoinHandler}
+          />
+          <p>To</p>
+          <SelectBox coins={coins} rateKRW={rateKRW} onChange={toCoinHandler} />
+          <br />
+          <button onClick={doConvert}>Convert</button>
+          <h2>
+            Convert Coin: <span />
+            {flag ? `${result.toFixed(3)} ${toCoin.symbol}` : ""}
+          </h2>
+        </div>
+      )}
     </div>
   );
 }
