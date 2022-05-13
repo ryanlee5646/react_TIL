@@ -279,3 +279,44 @@ const fromCoinHandler = (e) => {
     setFlag(false);
   };
 ```
+
+### (9) API 가져오기
+`fetch()`: javascript의 fetch("URL") 메서드를 이용해서 api를 가져 올 수 있다.
+기본적으로 호출방식(GET, POST, PUT...) 방식을 선언하지 않고 호출을 하면 GET방식으로 호출한다.
+
+```js
+// # 방법1. fetch로 api호출 후 .then()으로 파싱
+useEffect(() => {
+    // 코인정보
+    fetch("https://api.coinpaprika.com/v1/tickers?qutoes=KRW") // fetch는 javascript API호출 메서드
+      .then((response) => response.json())
+      .then((json) => {
+        const tmpCoin = json.slice(0, 100);
+        const parseCoinInfo = [];
+        for (let i = 0; i < tmpCoin.length; i++) {
+          parseCoinInfo.push({
+            id: i,
+            name: tmpCoin[i].name,
+            symbol: tmpCoin[i].symbol,
+            price: tmpCoin[i].quotes.USD.price,
+          });
+        }
+        setCoins(parseCoinInfo);
+        setLoading(false);
+      });
+}, []); // useEffect를 한번만 사용하고 싶을 경우 deps는 []
+
+// # 방법2. async / await 방식 (이 방법을 요즘 더 선호)
+const getMovies = async () => {
+    const json = await (
+      await fetch(
+        "https://yts.mx/api/v2/list_movies.json?minimum_rating=8.7&sort_by=year"
+      )
+    ).json();
+    setMovies(json.data.movies);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getMovies();
+  }, []);
+```
