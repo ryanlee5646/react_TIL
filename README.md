@@ -334,11 +334,6 @@ function Movie({ coverImage, title, summary, genres }) {
       <img src={coverImage} alt="" />
       <h2>{title}</h2>
       <p>{summary}</p>
-      <ul>
-        {genres.map((g) => (
-          <li key={g}>{g}</li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -396,20 +391,61 @@ function Movie({ coverImage, title, summary, genres }) {
         <Link to="/movie">{title}</Link>
       </h2>
       <p>{summary}</p>
-      <ul>
-        {genres.map((g) => (
-          <li key={g}>{g}</li>
-        ))}
-      </ul>
     </div>
   );
 }
 ```
 ### (13) React Router 동적 라우팅
-
-React에서 `Props`값을 넘겨받을 때 해당 Props의 타입을 선언해줘야 한다.
-그리고 `PropTypes`가 객체, 배열의 형태라면 해당 속성의 타입까지 선언해 줘야한다. 
-
+1. `:id`: 리액트에서 동적라우팅을 이용하는 방법은 라우팅 `path`에서 동적인 부분에 `:`을 붙여준다.
+2. 동적인 경로를 지정해주기 위해 `id` 값의 props를 받아와서 `Link` 경로에 `${id}`형태로 선언해준다.
+3. 동적라우팅으로 이동한 페이지에서 `useParams`를 통해 URL Parameter를 알수가 있다.
+   (ex) Route경로에서 `:id` 형태로 지정된 Prameter  
 ```js
+// App.js
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/movie/:id">
+          <Detail />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
 
+// Movie.js
+function Movie({ id, coverImage, title, summary, genres }) {
+  return (
+    <div>
+      <img src={coverImage} alt="" />
+      <h2>
+        <Link to={`/movie/${id}`}>{title}</Link>
+      </h2>
+    </div>
+  );
+}
+
+// Detail.js
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+function Detail() {
+  const { id } = useParams();
+  const getDetail = async () => {
+    const json = await (
+      await fetch(
+        `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
+      )
+    ).json();
+  };
+  useEffect(() => {
+    getDetail();
+  }, []);
+
+  return <h1>Detail</h1>;
+}
 ```
