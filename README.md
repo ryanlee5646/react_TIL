@@ -280,7 +280,7 @@ const fromCoinHandler = (e) => {
   };
 ```
 
-### (9) API 가져오기
+### (10) API 가져오기
 `fetch()`: javascript의 fetch("URL") 메서드를 이용해서 api를 가져 올 수 있다.
 기본적으로 호출방식(GET, POST, PUT...) 방식을 선언하지 않고 호출을 하면 GET방식으로 호출한다.
 
@@ -319,4 +319,97 @@ const getMovies = async () => {
   useEffect(() => {
     getMovies();
   }, []);
+```
+### (11) PropTypes
+React에서 `Props`값을 넘겨받을 때 해당 Props의 타입을 선언해줘야 한다.
+그리고 `PropTypes`가 객체, 배열의 형태라면 해당 속성의 타입까지 선언해 줘야한다. 
+
+```js
+import React from "react";
+import PropTypes from "prop-types";
+
+function Movie({ coverImage, title, summary, genres }) {
+  return (
+    <div>
+      <img src={coverImage} alt="" />
+      <h2>{title}</h2>
+      <p>{summary}</p>
+      <ul>
+        {genres.map((g) => (
+          <li key={g}>{g}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+Movie.propTypes = {
+  coverImage: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  summary: PropTypes.string.isRequired,
+  genres: PropTypes.arrayOf(PropTypes.string).isRequired // PropType이 배열인 경우 안에 속성까지 선언
+};
+
+export default Movie;
+```
+
+### (12) React Router
+사용자가 입력한 주소를 감지하는 역할을 하며, 여러 환경에서 동작 할 수 있도록 다양한 라우터 컴포넌트를 제공한다. 쉽게 말해서 사용자가 요청한 URL에 따라 페이지를 보여주는 것이라고 생각할 수 있다.
+그래서 하나의 페이지를 라우터라고 명칭한다. (ex) Movie 라우터
+
+React Router 설치 :  `npm install react-router-dom`
+
+* `Switch` : Route(페이지 URL)를 찾고 컴포넌트를 렌더링하는 역할
+* `Route` : 페이지 URL
+* `Link` : <a>태그를 이용해서 페이지를 이동하게 되면 페이지 전체가 호출 되지만 `Link` 컴포넌트를 이용하게 되면 새로고침을 하지 않고 다른 페이지로 이동시켜준다.
+
+```js
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./routes/Home";
+import Detail from "./routes/Detail";
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/movie">
+          <Detail />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
+
+// Movie.js
+import { Link } from "react-router-dom";
+
+function Movie({ coverImage, title, summary, genres }) {
+  return (
+    <div>
+      <img src={coverImage} alt="" />
+      <h2>
+        <Link to="/movie">{title}</Link>
+      </h2>
+      <p>{summary}</p>
+      <ul>
+        {genres.map((g) => (
+          <li key={g}>{g}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+### (13) React Router 동적 라우팅
+
+React에서 `Props`값을 넘겨받을 때 해당 Props의 타입을 선언해줘야 한다.
+그리고 `PropTypes`가 객체, 배열의 형태라면 해당 속성의 타입까지 선언해 줘야한다. 
+
+```js
+
 ```
